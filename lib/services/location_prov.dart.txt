@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class LocationProvider with ChangeNotifier {
+  String _location = '';
+  LatLng? _coordinates;
+
+  String get location => _location;
+  LatLng? get coordinates => _coordinates;
+
+  void setLocation(String location) {
+    _location = location;
+    notifyListeners();
+  }
+
+  void setCoordinates(LatLng coordinates) {
+    _coordinates = coordinates;
+    notifyListeners();
+  }
+}

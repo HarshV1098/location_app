@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location_app/services/location_provider.dart';
+import 'package:geocoding/geocoding.dart';  // for address to coordinates conversion
+
+class MapScreen extends StatefulWidget {
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  late GoogleMapController _controller;
+  LatLng? _coordinates;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCoordinates();
+  }
+
+  Future<void> _getCoordinates() async {
+    String location = Provider.of<LocationProvider>(context, listen: false).location;
+    try {
+      List<Location> locations = await locationFromAddress(location);
+      _coordinates = LatLng(locations[0].latitude, locations[0].longitude);
+      Provider.of<LocationProvider>(context, listen: false)
+          .setCoordinates(_coordinates!);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Invalid location')));
+    }
+    setState(() {
+      _loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Map View')),
+      body: _loading
+          ? Center(child: CircularProgressIndicator())
+          : GoogleMap(
+              onMapCreated: (controller) => _controller = controller,
+              initialCameraPosition: CameraPosition(
+                target: Provider.of<LocationProvider>(context).coordinates!,
+                zoom: 12,
+              ),
+              markers: {
+                Marker(
+                  markerId: MarkerId('location'),
+                  position: Provider.of<LocationProvider>(context).coordinates!,
+                ),
+              },
+            ),
+    );
+  }
+}
