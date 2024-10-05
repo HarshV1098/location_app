@@ -16,7 +16,5 @@ Map Display: The entered location is displayed on a Google Map with a marker.
 
 State Management: State is managed using the Provider package.
 
-![projectss1](https://github.com/user-attachments/assets/13a0120f-444f-491a-a092-d96311
-
-![projectss2](https://github.com/user-attachments/assets/760bdeeb-d999-4175-a828-5a8f6baf723a)
-6a08bf)
+![projectss1](https://github.com/user-attachments/assets/e952fdb6-3f10-4a9c-bf79-682d343601bb)
+![projectss2](https://github.com/user-attachments/assets/5cd779ea-f0a4-4307-b9c1-00f36b54c04c)
